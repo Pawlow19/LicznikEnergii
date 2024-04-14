@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
     {
@@ -49,7 +49,6 @@ const data = [
         amt: 2100,
       },
     ];
-
 const Chart = () => {
   return (
     <Box sx={{width: "100%", height: "100%"}}>

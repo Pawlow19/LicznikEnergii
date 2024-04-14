@@ -5,24 +5,26 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Box, Typography } from '@mui/material';
 
 
-export default function SuppliersBar() {
-  const [alignment, setAlignment] = React.useState('left');
+export default function SuppliersBar({supplier}) {
+  const [alignment, setAlignment] = React.useState('TAURON');
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
+    console.log(newAlignment);
+    supplier(newAlignment);
   };
 
   const children = [
-    <ToggleButton value="left" key="left">
+    <ToggleButton value="TAURON" key="left">
       <Typography>Tauron</Typography>
     </ToggleButton>,
-    <ToggleButton value="center" key="center">
+    <ToggleButton value="ENEA" key="center">
       <Typography>Enea</Typography>
     </ToggleButton>,
-    <ToggleButton value="right" key="right">
+    <ToggleButton value="PGE" key="right">
       <Typography>PGE</Typography>
     </ToggleButton>,
-    <ToggleButton value="justify" key="justify">
+    <ToggleButton value="ENERGA" key="justify">
       <Typography>Energa</Typography>
     </ToggleButton>,
   ];
