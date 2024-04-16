@@ -10,7 +10,7 @@ export default function SuppliersBar({supplier}) {
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
-    console.log(newAlignment);
+    //console.log(newAlignment);
     supplier(newAlignment);
   };
 

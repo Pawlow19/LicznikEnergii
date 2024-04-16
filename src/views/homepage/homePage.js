@@ -13,19 +13,17 @@ export const HomePage = () => {
   const handleChildData = (childdata) => {
     setData(childdata.chartType);
     setSelectedTimeFrame(childdata.timeFrame);
-    //console.log(childdata.timeFrame); 
   }
 
-  const handleSupplierChange = (childdata) => {
-    setSupplierChoice(childdata);
-    //console.log(childdata); 
+  const handleSupplierChange = (newSupplier) => {
+    setSupplierChoice(newSupplier);
   }
 
   return (
     <Box sx={{display: "flex", flexDirection: "column", height: '100vh', width: "100vw"}}>
         <SuppliersBar supplier={handleSupplierChange}/>
         <Box sx={{display: "flex", flexDirection: "row", height: '90%', width: "100%"}}>
-            <EnergyMeter childToParent={handleChildData}/>
+            <EnergyMeter childToParent={handleChildData} supplierChoice={supplierChoice}/>
             {data ==="1" ? <Chart timeFrame={selectedTimeFrame}/> : <Chart2 timeFrame={selectedTimeFrame}/>}
         </Box>
     </Box>
