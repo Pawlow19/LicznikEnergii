@@ -1,6 +1,7 @@
 import { Box, Typography, Divider, Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import data from '../../data.json';
+import dataPredicted from '../../dataPredicted.json';
 import SuppliersBar from './suppliersBar';
 
 const EnergyMeter = ({ childToParent, supplierChoice }) => {
@@ -11,7 +12,12 @@ const EnergyMeter = ({ childToParent, supplierChoice }) => {
   const [costPerKwh, setCostPerKwh] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
 
-  const currentHour = new Date().getHours();
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  const currentDayOfWeek = currentDate.getDay(); // 0 (Sunday) through 6 (Saturday)
+  const currentDayOfMonth = currentDate.getDate() - 1; // -1, bo indeksowanie zaczyna się od 0
+  // console.log(`Current day of the month: ${currentDayOfMonth + 1}`);
+  const currentMonth = currentDate.getMonth();
 
   const handleTimeFrameChange = (frame) => {
     setTimeFrame(frame);
@@ -26,29 +32,43 @@ const EnergyMeter = ({ childToParent, supplierChoice }) => {
   useEffect(() => {
     let sum = 0;
     let count = 0;
+    let dataSource = data;
+
+    switch (chartType) {
+      case '1':
+        dataSource = dataPredicted;
+        break;
+      case '2':
+        dataSource = data;
+        break;
+      default:
+        break;
+    }
 
     switch (timeFrame) {
       case 'day':
-        sum = data.day[currentHour];
-        count = 1;
+        for (let i = 0; i <= currentHour; i++) {
+          sum += dataSource.day[i];
+        }
+        count = currentHour + 1;
         break;
       case 'week':
-        data.week.forEach((value) => {
-          sum += value;
-          count++;
-        });
+        for (let i = 0; i < currentDayOfWeek; i++) {
+          sum += dataSource.week[i];
+        }
+        count = currentDayOfWeek;
         break;
       case 'month':
-        data.month.forEach((value) => {
-          sum += value;
-          count++;
-        });
+        for (let i = 0; i < currentDayOfMonth + 1; i++) {
+          sum += dataSource.month[i];
+        }
+        count = currentDayOfMonth + 1;
         break;
       case 'year':
-        data.year.forEach((value) => {
-          sum += value;
-          count++;
-        });
+        for (let i = 0; i <= currentMonth; i++) {
+          sum += dataSource.year[i];
+        }
+        count = currentMonth + 1;
         break;
       default:
         break;
@@ -61,12 +81,12 @@ const EnergyMeter = ({ childToParent, supplierChoice }) => {
     // Pobieranie ceny za kWh z pliku data.json
     const supplierData = data.suppliers.find(s => s.supplier === supplierChoice);
     const newCostPerKwh = supplierData ? supplierData.price : 0;
-    console.log(`Wybrany dostawca: ${supplierChoice}, cena za kWh: ${newCostPerKwh}`);
+    // console.log(`Wybrany dostawca: ${supplierChoice}, cena za kWh: ${newCostPerKwh}`);
     setCostPerKwh(newCostPerKwh);
 
     // Obliczanie łącznego kosztu
     setTotalCost(avg * newCostPerKwh);
-  }, [timeFrame, currentHour, supplierChoice]);
+  }, [timeFrame, currentHour, currentDayOfWeek, currentDayOfMonth, currentMonth, supplierChoice, chartType]);
 
   return (
     <Box sx={{ width: "30%", margin: "2rem" }}>

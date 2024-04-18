@@ -15,7 +15,7 @@ const Chart = ({ timeFrame }) => {
         case 'day':
           const dayData = Array.from({ length: 24 }, (_, i) => ({
             name: `${i.toString().padStart(2, '0')}:00`,
-            pv: data.day[i]
+            kWh: data.day[i]
           }));
           setChartData(dayData);
           break;
@@ -24,21 +24,21 @@ const Chart = ({ timeFrame }) => {
             name: [
               "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"
             ][i],
-            pv: data.week[i]
+            kWh: data.week[i]
           }));
           setChartData(weekData);
           break;
         case 'month':
           const monthData = Array.from({ length: 31 }, (_, i) => ({
             name: `${i + 1}`,
-            pv: data.month[i]
+            kWh: data.month[i]
           }));
           setChartData(monthData);
           break;
         case 'year':
           const yearData = Array.from({ length: 12 }, (_, i) => ({
             name: `${i + 1}.2024`,
-            pv: data.year[i]
+            kWh: data.year[i]
           }));
           setChartData(yearData);
           break;
@@ -68,7 +68,7 @@ const Chart = ({ timeFrame }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="pv" stackId="a" fill="#4f86f7" />
+        <Bar dataKey="kWh" stackId="a" fill="#4f86f7" />
       </BarChart>
     </Box>
   );
